@@ -2,21 +2,28 @@
 
 Beide lesen dasselbe Format (Agent-Skills-Standard). Ein Ordner reicht.
 
-## Empfohlen: ein Ort, beide Tools
+## Einmalig global (empfohlen – gilt dann in jedem Repo)
+```
+./install.sh
+```
+Legt `~/.agents/skills/spec-lens` an (pi liest das nativ) und einen Symlink
+`~/.claude/skills/spec-lens` (Claude Code).
 
-Projektweit:
+## Per Git pflegen und updaten
+Skill-Ordner in ein eigenes Repo legen, dann:
 ```
-mkdir -p .agents/skills
-cp -r spec-lens .agents/skills/
-ln -s ../../.agents/skills/spec-lens .claude/skills/spec-lens   # für Claude Code
+SPEC_LENS_REPO=git@github.com:<du>/spec-lens.git ./install.sh   # einmal
+./install.sh --update                                            # später
 ```
-pi findet `.agents/skills/` von selbst. Claude Code über den Symlink in `.claude/skills/`.
+Update = `git pull`. Änderungen am Skill machst du im Repo, nicht in `~/.agents`.
 
-Global:
+## Ins Team-Repo committen
+Im Zielrepo:
 ```
-cp -r spec-lens ~/.agents/skills/
-ln -s ~/.agents/skills/spec-lens ~/.claude/skills/spec-lens
+~/.agents/skills/spec-lens/install.sh --project
 ```
+Kopiert nach `.agents/skills/spec-lens` + Symlink `.claude/skills/spec-lens`. Beides committen.
+Update im Projekt: Befehl erneut ausführen (überschreibt).
 
 ## Alternative ohne Symlink
 pi auf den Claude-Code-Ordner zeigen lassen – in `.pi/settings.json`:
@@ -26,9 +33,10 @@ pi auf den Claude-Code-Ordner zeigen lassen – in `.pi/settings.json`:
 
 ## Aufruf
 - Claude Code: `/spec-lens add-dark-mode --persp architekt --zoom teil`
-- pi: `/skill:spec-lens` oder einfach natürlich: „bewerte add-dark-mode aus Architektensicht, nur betroffener Teil"
-- Nach Änderungen an SKILL.md in pi `/reload`, in Claude Code neue Session.
+- pi: `/skill:spec-lens` oder natürlich: „bewerte add-dark-mode aus Architektensicht, nur betroffener Teil"
+- Nach Änderungen an SKILL.md: pi `/reload`, Claude Code neue Session.
 
 ## Ergebnis ansehen
-Der Skill schreibt nach `openspec/reviews/<ziel>--<persp>--<zoom>.md`.
-Datei in VS Code (Markdown-Vorschau) oder auf GitHub öffnen – dort rendert Mermaid.
+Terminals rendern kein Mermaid. Der Skill schreibt `openspec/reviews/<ziel>--<persp>--<zoom>.md`
+und ruft `scripts/render.py` auf → `.html` daneben, öffnet sich im Browser. Kein Install nötig.
+Alternativ: `.md` in VS Code mit Extension "Markdown Preview Mermaid Support" (Strg+Shift+V).

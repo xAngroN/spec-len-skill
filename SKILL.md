@@ -57,6 +57,11 @@ Ergebnis immer als Datei schreiben, zusätzlich im Chat anzeigen:
 Grund: Mermaid rendert nicht im Terminal, aber in VS Code, GitHub und Obsidian.
 Existiert die Datei, überschreiben – Reviews sind Momentaufnahmen, kein Log.
 
+Nach dem Schreiben immer `python3 <skill-dir>/scripts/render.py <datei>` ausführen:
+erzeugt eine `.html` daneben und öffnet sie im Browser, wo die Diagramme
+gerendert werden. Im Chat nur die Kurzfassung und die Approval-Fragen wiederholen,
+nicht das Diagramm.
+
 ## Harte Regeln
 
 - Ausgabe pro Zelle: max. 1 Bildschirmseite Text + 1 Diagramm.
@@ -91,3 +96,4 @@ Vollständiges Beispiel: `assets/beispiel.md`.
 - `references/diagrams.md` – welcher Mermaid-Diagrammtyp wofür, Konventionen
 - `references/openspec.md` – Mapping auf OpenSpec-Verzeichnisstruktur, project.md
 - `assets/beispiel.md` – Referenzausgabe (Change, architekt, teil)
+- `scripts/render.py` – Markdown+Mermaid → HTML, öffnet Browser
